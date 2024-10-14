@@ -3,44 +3,59 @@ const timer = document.getElementById("screen");
 var hr = 0;
 var min = 0;
 var sec = 0;
+var mili = 0;
 
 var stopwatch = true;
 
+
 // ------ start timer -----
 
-// Ager clock stop h to clock ko on kr rha h aur timerCycle() ko call kr rha h
+// Ager clock stop h to clock ko ON kr rha h aur timerCycle() ko call kr rha h
 function startTimer() {
 
     if (stopwatch == true) {
 
         // now watch is not stop, it is moving
-        stopwatch = false;
+        stopwatch = false; // false means ON kr do.
 
-        // call the timerCycle() to start the clock
+        // call the timerCycle() to start the clock | clock ko chala do
         timerCycle();
 
     }
 
+      //clock ko ON bhi kia h Aur move bhi krwaya function call kr k
+
 }
 
+// jab start k button pr click kren gy To 2 function call hon gy ( startTimer, timerCylce).
 
 // ------ timerCycle -----
 
 // sari calculation chala rha h
 function timerCycle() {
 
-    // if watch is not stop
+    // if watch is not stop | ager clock ON h
     if (stopwatch == false) {
 
         // convert into number, to applying mathematical operation
+        mili = parseInt(mili);
         sec = parseInt(sec);
         min = parseInt(min);
         hr = parseInt(hr);
 
 
         // sec increment
-        sec = sec + 1;
+        mili = mili + 1;
 
+
+        // condition
+        if ( mili == 100) {
+
+            // min increment
+            sec = sec + 1;
+            mili = 0;
+
+        }
 
         // condition
         if ( sec == 60) {
@@ -48,6 +63,7 @@ function timerCycle() {
             // min increment
             min = min + 1;
             sec = 0;
+            mili = 0;
 
         }
 
@@ -58,11 +74,18 @@ function timerCycle() {
             hr = hr + 1;
             min = 0;
             sec = 0;
+            mili = 0;
 
         }
 
 
         // for add "0" before signle figure/digit
+        if (mili < 10) {
+
+            mili = "0" + mili;
+            
+        }
+
         if (sec < 10) {
 
             sec = "0" + sec;
@@ -85,16 +108,30 @@ function timerCycle() {
 
 
         // show the moving watch
-        timer.innerHTML = hr + ":" + min + ":" + sec;
+        timer.innerHTML = hr + ":" + min + ":" + sec + ":" + mili;
 
-        // to perform in every sec
-        setTimeout("timerCycle()",1000)
+        // ye function ko bar bar call kr rha h bs | aur value show kr rha 10 mili sec k bad
+        setTimeout("timerCycle()",10);
+        
+        // setInterval("timerCycle()",10)       X
 
         
     }
 
+    // if (sec == 5) {
+
+    //     stopwatch = true;
+        
+
+    // }
+    
+
 }
 
+// setTimeout("timerCycle()",10);      X
+
+ // to perform in every sec
+// setInterval("timerCycle()",10)
 
 // ------- stop timer -------
 
@@ -118,15 +155,17 @@ function stopTimer() {
 function resetTimer() {
 
     // if click on "reset" --> shown "00:00:00" in screen
-    timer.innerHTML = "00:00:00";
+    timer.innerHTML = "00:00:00:00";
 
     // watch become stop
     stopwatch = true;
 
     // all values will become "0"
     hr = 0;
-    sec = 0;
     min = 0;
+    sec = 0;
+    mili = 0;
+
 
 }
 
